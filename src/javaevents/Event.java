@@ -80,6 +80,10 @@ public class Event {
         }
     }
 
+    public int reservetionAvailable() {
+        return getCapacity() - getBooked();
+    }
+
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
