@@ -1,7 +1,7 @@
-/*
 package javaevents;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -36,9 +36,11 @@ public class Concert extends Event {
 
     public String getFormattedDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            return (date.format(formatter) + " - " + this.title);
-        }
+        return (getDate().format(formatter) + " - " + getTitle());
+    }
+
+    public String getFormattedPrice(BigDecimal price) {
+        DecimalFormat df = new DecimalFormat("##,##€");
+        return (df.format(price));
     }
 }
-
-*/

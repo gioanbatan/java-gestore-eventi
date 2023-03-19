@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f0c8bc93-8622-429f-b605-d09c0eb6e62a" name="Changes" comment="First commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/javaevents/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/javaevents/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/javaevents/Concert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/javaevents/Concert.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/javaevents/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/javaevents/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,8 +80,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/javaevents/Main.java</url>
-          <line>81</line>
-          <option name="timeStamp" value="1" />
+          <line>62</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

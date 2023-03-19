@@ -1,6 +1,7 @@
 package javaevents;
 
 import java.text.DecimalFormat;
+import java.time.DateTimeException;
 import java.util.Scanner;
 
 public class Main {
@@ -44,6 +45,8 @@ public class Main {
         String inputTitle;
         String userSelection;
         boolean inputIsValid = false;
+        String inputDate = null;
+        int inputCapacity = 0;
 
         // User input for event creation
         System.out.println("--- Gestore eventi ---");
@@ -54,22 +57,41 @@ public class Main {
         } while (inputTitle.isEmpty());
 
         // Decimal format for days and month
-        DecimalFormat decimalFormatDayMonth = new DecimalFormat("00");
-        System.out.println("\nData");
-        System.out.print("Anno: ");
-        String inputDate = scan.nextLine();
-        System.out.print("Mese: ");
-        inputDate += "-" + decimalFormatDayMonth.format(Integer.parseInt(scan.nextLine()));
-        System.out.print("Giorno: ");
-        inputDate += "-" + decimalFormatDayMonth.format(Integer.parseInt(scan.nextLine()));
 
-        System.out.print("\nCapienza della location: ");
-        int inputCapacity = Integer.parseInt(scan.nextLine());
+        do {
+            try {
+                inputIsValid = true;
+                DecimalFormat decimalFormatDayMonth = new DecimalFormat("00");
+                DecimalFormat decimalFormatYear = new DecimalFormat("0000");
+                System.out.println("\nData");
+                System.out.print("Anno: ");
+                inputDate = decimalFormatYear.format(Integer.parseInt(scan.nextLine()));
+                System.out.print("Mese: ");
+                inputDate += "-" + decimalFormatDayMonth.format(Integer.parseInt(scan.nextLine()));
+                System.out.print("Giorno: ");
+                inputDate += "-" + decimalFormatDayMonth.format(Integer.parseInt(scan.nextLine()));
 
-        // Event creation and show
+                // Input capacity
+                System.out.print("\nCapienza della location: ");
+                inputCapacity = Integer.parseInt(scan.nextLine());
+
+                // Event creation and show
+                new Event(inputTitle, inputDate, inputCapacity);
+            } catch (DateTimeException e) {
+                System.out.println("La data è stata inserita in maniera incorreta");
+                inputIsValid = false;
+            } catch (NumberFormatException e) {
+                System.out.println("Non è stato inserito un numero");
+                inputIsValid = false;
+            } catch (DateInPastException e) {
+                System.out.println(e);
+                inputIsValid = false;
+            }
+        } while (!inputIsValid);
+
+
         Event eventOne = new Event(inputTitle, inputDate, inputCapacity);
         System.out.println(eventOne.toString());
-
         // Booking
         System.out.print("\nVuoi effettuare delle prenotazioni (s per si)? ");
         userSelection = scan.nextLine();
