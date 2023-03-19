@@ -11,7 +11,7 @@ public class Event {
     private int booked;
 
     // Contructors
-    public Event(String title, String date, int capacity) {
+    public Event(String title, String date, int capacity) throws NegativeCapacityException {
         // Actual date
         LocalDate localDate = LocalDate.now();
 
@@ -64,7 +64,7 @@ public class Event {
     }
 
     // Methods
-    public void reserveDate() {
+    public void reserveDate() throws CapacityReachedException {
         if (dateIsValid(date) && booked < capacity) {
             booked++;
         } else {
@@ -72,7 +72,7 @@ public class Event {
         }
     }
 
-    public void cancelDate() {
+    public void cancelDate() throws CancelNoBookedException {
         if (booked > 0) {
             booked--;
         } else {
@@ -91,7 +91,7 @@ public class Event {
     }
 
     // Service methods
-    private static boolean dateIsValid(LocalDate date) {
+    private static boolean dateIsValid(LocalDate date) throws DateInPastException {
         if (date.isBefore(LocalDate.now())) {
             throw new DateInPastException("Date can't be in past. Actual date: " + LocalDate.now() + ", your date: " + date + ".");
         }

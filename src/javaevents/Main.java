@@ -1,5 +1,6 @@
 package javaevents;
 
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Main {
@@ -42,21 +43,26 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         String inputTitle;
         String userSelection;
+        boolean inputIsValid = false;
 
         // User input for event creation
         System.out.println("--- Gestore eventi ---");
         System.out.println("Inserire un nuovo evento");
-        System.out.print("\nTitolo: ");
         do {
+            System.out.print("\nTitolo: ");
             inputTitle = scan.nextLine();
         } while (inputTitle.isEmpty());
+
+        // Decimal format for days and month
+        DecimalFormat decimalFormatDayMonth = new DecimalFormat("00");
         System.out.println("\nData");
         System.out.print("Anno: ");
         String inputDate = scan.nextLine();
         System.out.print("Mese: ");
-        inputDate += "-" + scan.nextLine();
+        inputDate += "-" + decimalFormatDayMonth.format(Integer.parseInt(scan.nextLine()));
         System.out.print("Giorno: ");
-        inputDate += "-" + scan.nextLine();
+        inputDate += "-" + decimalFormatDayMonth.format(Integer.parseInt(scan.nextLine()));
+
         System.out.print("\nCapienza della location: ");
         int inputCapacity = Integer.parseInt(scan.nextLine());
 
@@ -69,12 +75,22 @@ public class Main {
         userSelection = scan.nextLine();
 
         if (userSelection.equalsIgnoreCase("s")) {
+            int inputBooking = 0;
 
-            System.out.print("Quanti posti vuoi prenotare? ");
-            int inputBooking = Integer.parseInt(scan.nextLine()); //ADD Handle exception for wrong input type
+            inputIsValid = false;
 
+            while (!inputIsValid) {
+                try {
+                    System.out.print("Quanti posti vuoi prenotare (0 per annullare)? ");
+                    inputBooking = Integer.parseInt(scan.nextLine());
+                    inputIsValid = true;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Si prega di inserire un numero valido\n");
+                    inputIsValid = false;
+                }
+            }
 
-            if (inputBooking > eventOne.reservetionAvailable()) { //ADD Handle exception for wrong input type
+            if (inputBooking > eventOne.reservetionAvailable()) {
                 System.out.println("Non ci sono sufficienti posti liberi:");
                 System.out.println("Posti in totale: " + eventOne.getCapacity() + " - Posti disponibili: " + eventOne.reservetionAvailable());
 
@@ -110,39 +126,54 @@ public class Main {
             }
         }
 
-        System.out.println("\n--------------------------------");
-        System.out.println("Posti prenotati: " + eventOne.getBooked() + " - Posti disponibili: " + eventOne.reservetionAvailable());
-
+        showReport(eventOne);
 
         // Cancel reservation
         System.out.print("\nVuoi effettuare delle disdette (s per si)? ");
         userSelection = scan.nextLine();
 
-        if (userSelection.equalsIgnoreCase("s")) {
+        if (eventOne.getBooked() == 0) {
+            System.out.println("Non ci sono posti prenotati.");
+        } else if (userSelection.equalsIgnoreCase("s")) {
+            int inputCancelBooking = 0;
+            inputIsValid = false;
 
-            System.out.print("Quanti posti vuoi disdire? ");
-            int inputCancelBooking = Integer.parseInt(scan.nextLine()); //ADD Handle exception for wrong input type
+            while (!inputIsValid) {
+                try {
+                    System.out.print("Quanti posti vuoi disdire (0 per annullare)? ");
+                    inputCancelBooking = Integer.parseInt(scan.nextLine());
+                    inputIsValid = true;
 
-            if (inputCancelBooking > eventOne.getBooked()) { //ADD Handle exception for wrong input type
-                System.out.println("Vuoi disdire più prenotazioni di quante ce ne sono.");
-                System.out.println("Posti prenotati: " + eventOne.getBooked());
+                    if (inputCancelBooking > eventOne.getBooked()) { //ADD Handle exception for wrong input type
+                        System.out.println("Vuoi disdire più prenotazioni di quante ce ne sono.");
+                        System.out.println("Posti prenotati: " + eventOne.getBooked());
 
-                System.out.println("Vuoi disdire tutte le prenotazioni (s per si)? ");
-                userSelection = scan.nextLine();
+                        System.out.println("Vuoi disdire tutte le prenotazioni (s per si)? ");
+                        userSelection = scan.nextLine();
 
-                if (userSelection.equalsIgnoreCase("s")) {
-                    inputCancelBooking = eventOne.getBooked();
-                } else {
-                    inputCancelBooking = 0;
+                        if (userSelection.equalsIgnoreCase("s")) {
+                            inputCancelBooking = eventOne.getBooked();
+                        } else {
+                            inputCancelBooking = 0;
+                        }
+                    }
+
+                    for (int i = 0; i < inputCancelBooking; i++) {
+                        eventOne.cancelDate();
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Si prega di inserire un numero valido\n");
+                    inputIsValid = false;
                 }
-            }
-
-            for (int i = 0; i < inputCancelBooking; i++) {
-                eventOne.cancelDate();
             }
         }
 
+        showReport(eventOne);
+    }
+
+    public static void showReport(Event event) {
         System.out.println("\n--------------------------------");
-        System.out.println("Posti prenotati: " + eventOne.getBooked() + " - Posti disponibili: " + eventOne.reservetionAvailable());
+        System.out.print("Posti prenotati: " + event.getBooked() + " - Posti disponibili: " + event.reservetionAvailable());
+        System.out.println("\n--------------------------------");
     }
 }
