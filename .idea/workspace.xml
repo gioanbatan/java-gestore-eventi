@@ -80,7 +80,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/javaevents/Main.java</url>
-          <line>62</line>
+          <line>64</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

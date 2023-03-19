@@ -34,13 +34,19 @@ public class Concert extends Event {
         this.price = price;
     }
 
-    public String getFormattedDate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return (getDate().format(formatter) + " - " + getTitle());
+    public String getFormattedDateTime() {
+        DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("hh:mm");
+        return super.getDate().format(formatterDate) + " " + this.time.format(formatterTime);
     }
 
-    public String getFormattedPrice(BigDecimal price) {
+    public String getFormattedPrice() {
         DecimalFormat df = new DecimalFormat("##,##€");
-        return (df.format(price));
+        return (df.format(this.price));
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedDateTime() + " - " + super.getTitle() + " - " + getFormattedPrice();
     }
 }

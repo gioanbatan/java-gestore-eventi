@@ -1,7 +1,9 @@
 package javaevents;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.DateTimeException;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 public class Main {
@@ -191,6 +193,11 @@ public class Main {
         }
 
         showReport(eventOne);
+
+        // New Concert instance
+        Concert newConcert = new Concert("i/o tour - Peter Gabrel", "2023-06-12", 5000, LocalTime.parse("21:00:00"), new BigDecimal("85"));
+
+        System.out.println(newConcert.toString());
     }
 
     public static void showReport(Event event) {
